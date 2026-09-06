@@ -68,7 +68,7 @@ jobs:
           rm -rf rgbds
 
       - name: Compare
-        if: ${{ github.repository_owner == 'curiosity-tests' }}
+        if: ${{ github.repository_owner == 'pret' }}
         run: |
           make DEBUG=1 -j$(nproc) compare
           .github/checkdiff.sh
@@ -80,26 +80,26 @@ jobs:
           .github/checkdiff.sh
 
       - name: Discord webhook
-        if: ${{ 'push' == 'push' && github.repository_owner == 'curiosity-tests' }}
+        if: ${{ 'push' == 'push' && github.repository_owner == 'pret' }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           .github/webhook.sh
 
       - name: Checkout symbols
-        if: ${{ github.repository_owner == 'curiosity-tests' && 'push' == 'push' }}
+        if: ${{ github.repository_owner == 'pret' && 'push' == 'push' }}
         uses: actions/checkout@v7
         with:
           path: symbols
           ref: symbols
 
       - name: Move symbols
-        if: ${{ github.repository_owner == 'curiosity-tests' && 'push' == 'push' }}
+        if: ${{ github.repository_owner == 'pret' && 'push' == 'push' }}
         run: |
           cp -v *.sym *.map symbols/
 
       - name: Update symbols
-        if: ${{ github.repository_owner == 'curiosity-tests' && 'push' == 'push' }}
+        if: ${{ github.repository_owner == 'pret' && 'push' == 'push' }}
         uses: EndBug/add-and-commit@v10
         with:
           cwd: "./symbols"
